@@ -23,9 +23,7 @@ A continuación se encuentra el diagrama de flujo que representa la ejecución d
 ```
 git clone https://github.com/virtualbomy/Calculadora.git
 ```  
-
 2. Abrir la terminal en la carpeta resultante y para ejecutar el programa escribir el comando
-<br/><br/>
 ```
  make run
 ```
