@@ -1,15 +1,18 @@
 ;main
-global _start
+global _main
+
+extern main
+extern hello1
 
 section .text
-_start:
+_main:
     ; Llamar a la función `hello` del archivo `calculadora.asm`
-    extern hello
-    call hello
+    call hello1
+
+    call main
 
     ; Llamar a la función `hello1` del archivo `conversor.asm`
-    extern hello1
-    call hello1
+    
 
     ;Terminar ejecución
     mov rax, 60         ; syscall: exit

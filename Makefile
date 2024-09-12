@@ -1,30 +1,33 @@
-# Compilador y enlazador
-NASM = nasm
-LD = ld
+# Nombre del ejecutable
+TARGET := ejecutable
 
-# Banderas
-NASMFLAGS = -f elf64
-LDFLAGS =
+# Archivos fuente y objetos
+ASM_SOURCES := calculadora.asm conversor.asm main.asm
+ASM_OBJECTS := $(ASM_SOURCES:.asm=.o)
 
-# Se define los nombres de los archivos del programa
-SOURCES = main.asm calculadora.asm conversor.asm
-OBJECTS = $(SOURCES:.asm=.o)
-TARGET = programa
+CPP_SOURCE := menu.cpp
+CPP_OBJECT := menu.o
 
-# Se ejecuta al utilizar ¨make¨
+# Regla por defecto
 all: $(TARGET)
 
-# Crea el ejecutable
-$(TARGET): $(OBJECTS)
-	$(LD) $(LDFLAGS) $(OBJECTS) -o $(TARGET)
-
-# Compila los archivos
+# Compilar archivos ASM
 %.o: %.asm
-	$(NASM) $(NASMFLAGS) $< -o $@
+	nasm -f elf64 $< -o $@
 
-# Limpia los archivos y ejecutable con make clean
+# Compilar y enlazar todo
+$(TARGET): $(ASM_OBJECTS) $(CPP_OBJECT)
+	g++ $(CPP_SOURCE) $(ASM_OBJECTS) -o $(TARGET)
+
+# Ejecutar el programa
+run: all
+	./$(TARGET)
+
+# Depurar con gdb
+debug: all
+	gdb $(TARGET)
+
+# Limpiar los archivos generados
 clean:
-	rm -f $(OBJECTS) $(TARGET)
+	rm -f $(ASM_OBJECTS) $(CPP_OBJECT) $(TARGET)
 
-# Forzar que target `clean` siempre se ejecute
-.PHONY: all clean

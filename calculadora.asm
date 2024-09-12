@@ -1,16 +1,47 @@
-;Calculadora
+section .data
 section .text
-global hello
 
-hello:
-    ; Imprime texto
-    mov rax, 1          ; syscall: write
-    mov rdi, 1          ; file descriptor: stdout
-    mov rsi, msg        ; dirección del mensaje
-    mov rdx, msg_len    ; longitud del mensaje
-    syscall
+global menu
+
+menu:
+    ; Los argumentos se pasan en edi (num1), esi (num2), edx (opcion)
+    mov eax, edi        ; num1 en eax
+    mov ebx, esi        ; num2 en ebx
+
+    ; Comparar opcion (edx) con los valores posibles de opcion
+    cmp edx, 1
+    je suma
+    cmp edx, 2
+    je resta
+    cmp edx, 3
+    je multiplicacion
+    cmp edx, 4
+    je division
+    ; Si no es ninguna opción válida, retornar 0
+    xor eax, eax
     ret
 
-section .data
-msg db 'Hello, world!', 0xA ; Mensaje a imprimir (y nueva línea)
-msg_len equ $ - msg          ; Longitud del mensaje
+suma:
+    add eax, ebx
+    ret
+
+resta:
+    sub eax, ebx
+    ret
+
+multiplicacion:
+    imul eax, ebx
+    ret
+
+division:
+    ; Comprobar división por cero
+    test ebx, ebx
+    jz division_por_cero
+    xor edx, edx        ; Limpiar edx para la división
+    idiv ebx
+    ret
+
+division_por_cero:
+    ; Retornar un valor que indique error
+    mov eax, 0x80000000
+    ret
