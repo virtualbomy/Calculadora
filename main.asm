@@ -1,22 +1,13 @@
-;main
+section .text
 global _main
 
 extern main
-extern hello1
 
-section .text
 _main:
-    ; Llamar a la función `hello` del archivo `calculadora.asm`
-    call hello1
-
+    ; Llamar a la función main de menu.cpp
     call main
 
-    ; Llamar a la función `hello1` del archivo `conversor.asm`
-    
-
-    ;Terminar ejecución
+    ; Terminar ejecución
     mov rax, 60         ; syscall: exit
     xor edi, edi        ; código de salida: 0
     syscall
-
-section .data

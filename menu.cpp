@@ -4,6 +4,9 @@
 using namespace std;
 
 extern "C" int menu(int num1, int num2, int opcion);
+extern "C" void decimal_to_binary(int num, char* buffer);
+extern "C" void decimal_to_hex(int num, char* buffer);
+extern "C" void decimal_to_octal(int num, char* buffer);
 //extern "C" void coversor();
 
 int main() {
@@ -37,6 +40,16 @@ int main() {
 
             resultado = menu(num1, num2, opcion);
             cout << "El resultado en decimal es: " << resultado << "\n";
+            
+            // Convertir y mostrar en otros formatos
+            decimal_to_binary(resultado, binary);
+            decimal_to_hex(resultado, hex);
+            decimal_to_octal(resultado, octal);
+
+            cout << "El resultado en binario: " << binary << endl;
+            cout << "El resultado en hexadecimal: " << hex << endl;
+            cout << "El resultado en octal: " << octal << endl;
+            
             cout << "----------------------------" << endl;
 
         } else if (opcion == 5) {
